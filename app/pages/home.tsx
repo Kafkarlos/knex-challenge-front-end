@@ -1,8 +1,15 @@
-import Header from '../components/Header';
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 export function Welcome() {
   return (
-    <Header />
+    <>
+      <Header />
+      <main>
+        <section>post post</section>
+        <aside>usuario dreizehn</aside>
+      </main>
+      <Footer />
+    </>
   );
 }
-

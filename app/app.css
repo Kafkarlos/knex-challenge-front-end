@@ -1,20 +1,22 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans:
+    "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-lato: "Lato", sans-serif;
   --font-mw: "Merriweather", serif;
 
-  --color-purple-10: #511D43;
-  --color-pink-10: #901E3E;
-  --color-red-10: #DC2525;
-  --color-green-10: #9BC09C;
+  --color-purple-10: #511d43;
+  --color-pink-10: #901e3e;
+  --color-red-10: #dc2525;
+  --color-green-10: #9bc09c;
+  --color-white-10: #e6efe6;
 }
 
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
+  @apply bg-white-10 dark:bg-gray-950;
 
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
@@ -23,12 +25,12 @@ body {
   font-size: 62.5%;
 }
 
-nav ul{
+nav ul {
   list-style: none;
   display: flex;
   gap: 5vw;
 }
-nav ul li a{
+nav ul li a {
   display: inline-block;
   font-size: 2.2rem;
   font-family: var(--font-mw);
@@ -39,10 +41,14 @@ nav ul li a{
   border-radius: 10%;
 }
 
-nav ul li a:hover{
-  border: 2px solid #DC2525;
+nav ul li a:hover {
+  border: 2px solid #dc2525;
 }
 
-.btn{
+.btn {
   background-color: var(--color-red-10);
+}
+
+footer p {
+  font-size: 1.5rem;
 }
