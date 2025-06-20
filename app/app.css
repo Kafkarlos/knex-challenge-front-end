@@ -18,6 +18,8 @@ html,
 body {
   @apply bg-white-10 dark:bg-gray-950;
 
+  background-color: var(--color-white-10);
+
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
   }
