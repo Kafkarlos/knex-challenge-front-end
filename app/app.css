@@ -3,6 +3,13 @@
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-lato: "Lato", sans-serif;
+  --font-merriweather: "Merriweather", serif;
+
+  --color-purple-10: #511D43;
+  --color-pink-10: #901E3E;
+  --color-red-10: #DC2525;
+  --color-green-10: #9BC09C;
 }
 
 html,
