@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
+import sha256 from "crypto-js/sha256";
 
 type User = {
   name: string;
@@ -21,14 +23,21 @@ const AuthContext = createContext<AuthContextType>({
   loading: true,
 });
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("https://randomuser.me/api/?nat=br&?format=json")
-      .then(response => {
+    axios
+      .get("https://randomuser.me/api/?nat=br&format=json")
+      .then((response) => {
         const data = response.data.results[0];
+        const userToken = sha256(data.login.uuid).toString();
+
+        Cookies.set("user_token", userToken, { expires: 7 });
+
         setUser({
           name: `${data.name.first} ${data.name.last}`,
           email: data.email,
@@ -38,6 +47,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           state: data.location.state,
           picture: data.picture.medium,
         });
+
         setLoading(false);
       })
       .catch(() => {
