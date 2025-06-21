@@ -28,6 +28,10 @@ body {
   font-family: var(--font-lato);
 }
 
+* img{
+  width: 100%;
+}
+
 nav ul {
   list-style: none;
   display: flex;

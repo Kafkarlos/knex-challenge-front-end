@@ -1,14 +1,15 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import User from "../components/User";
+import Post from "../components/PostCard";
 
 export function Welcome() {
   return (
     <>
       <Header />
-      <main className="min-h-200 grid grid-cols-2 justify-items-center">
-        <section>
-          <p>Post</p>
+      <main className="min-h-200 grid grid-cols-4 justify-items-center">
+        <section className="col-start-2">
+          <Post />
         </section>
         <User />
       </main>

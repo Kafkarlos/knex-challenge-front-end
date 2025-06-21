@@ -1,6 +1,5 @@
 import { useAuth } from "../contexts/AuthContext";
 import Icon from "public/icons/icon.svg";
-
 export default function User() {
   const { user, loading } = useAuth();
 
@@ -8,7 +7,7 @@ export default function User() {
 
   if (!user) return <p>Erro ao carregar usuário</p>;
   return (
-    <section className="w-50">
+    <section className="w-50 col-span-2">
       <article className="user-card m-7 p-5 w-120">
         <section className="grid grid-cols-3">
           <figure className="w-30 justify-self-center self-center">
@@ -25,12 +24,14 @@ export default function User() {
             <div className="p-5 justify-items-start">
               <p className="text-sm text-black/60">Idade: {user.age}</p>
               <p className="text-sm text-black/60 pt-2">
+              <figure className="w-6 inline-block">
                 <img
                   src={Icon}
                   alt="Ícone de Local"
-                  className="w-6 h-6 inline-block fill-black"
+                  className="fill-black"
                 />
-                {user.country} — {user.state}
+              </figure>
+                {user.country}—{user.state}
               </p>
             </div>
           </div>
