@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="w-full bg-pink-10 min-h-50 absolute inset-x-0 bottom-0">
+    <footer className="w-full bg-pink-10 min-h-50 relative inset-x-0 bottom-0">
         <hr />
       <section className="grid grid-cols-3 justify-items-center p-5 pt-10">
         <p><a href="">Sobre</a></p>

@@ -6,6 +6,8 @@ type User = {
   email: string;
   phone: string;
   age: string;
+  country: string;
+  state: string;
   picture: string;
 };
 
@@ -32,6 +34,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           email: data.email,
           phone: data.phone,
           age: data.dob.age,
+          country: data.location.country,
+          state: data.location.state,
           picture: data.picture.medium,
         });
         setLoading(false);

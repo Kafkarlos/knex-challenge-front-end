@@ -1,9 +1,9 @@
 export default function Header() {
   return (
     <header className="bg-purple-10 w-full h-28 grid grid-cols-2 items-center">
-      <div className="w-40 ml-5">
+      <figure className="w-40 ml-5">
         <img src="/images/logo_reden.png" alt="Reden" width="100%" />
-      </div>
+      </figure>
       <nav className="p-5 mr-5">
         <ul className="justify-end">
           <li>
