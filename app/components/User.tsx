@@ -1,9 +1,11 @@
 import { useAuth } from "../contexts/AuthContext";
 import Icon from "public/icons/icon.svg";
+import Skeleton from "./UserSkeleton";
+
 export default function User() {
   const { user, loading } = useAuth();
 
-  if (loading) return <p>Carregando usuário...</p>;
+  if (loading) return <Skeleton />;
 
   if (!user) return <p>Erro ao carregar usuário</p>;
   return (

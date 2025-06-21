@@ -97,7 +97,7 @@ export default function PostCard() {
         <section className="grid grid-cols-5">
           <button
             onClick={() => setShowModalDel(true)}
-            className="bg-pink-10 p-2 w-12 text-2xl col-start-3 rounded-full transition-all duration-700 ease-in-out hover:bg-red-10 hover:rounded-xl"
+            className="bg-pink-10 p-2 w-12 text-2xl col-start-3 rounded-full transition-all duration-700 ease-in-out hover:bg-red-10"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -116,7 +116,7 @@ export default function PostCard() {
           </button>
           <button
             onClick={() => setShowModalEdit(true)}
-            className="bg-purple-10 p-2 w-12 text-2xl col-start-4 rounded-full transition-all duration-700 ease-in-out hover:bg-purple-950 hover:rounded-xl"
+            className="bg-purple-10 p-2 w-12 text-2xl col-start-4 rounded-full transition-all duration-700 ease-in-out hover:bg-purple-950"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
