@@ -28,7 +28,7 @@ export default function PostCard() {
     axios
       .get(`https://jsonplaceholder.typicode.com/posts?_limit=1`)
       .then((res) => {
-        const firstPost = res.data[0]; // pega o primeiro post
+        const firstPost = res.data[0];
         setPost(firstPost);
         reset({
           title: firstPost.title,
