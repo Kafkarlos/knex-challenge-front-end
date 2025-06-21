@@ -24,13 +24,9 @@ export default function User() {
             <div className="p-5 justify-items-start">
               <p className="text-sm text-black/60">Idade: {user.age}</p>
               <p className="text-sm text-black/60 pt-2">
-              <figure className="w-6 inline-block">
-                <img
-                  src={Icon}
-                  alt="Ícone de Local"
-                  className="fill-black"
-                />
-              </figure>
+                <figure className="w-6 inline-block">
+                  <img src={Icon} alt="Ícone de Local" className="fill-black" />
+                </figure>
                 {user.country}—{user.state}
               </p>
             </div>

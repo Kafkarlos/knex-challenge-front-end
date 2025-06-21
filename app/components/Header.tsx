@@ -2,7 +2,7 @@ export default function Header() {
   return (
     <header className="bg-purple-10 w-full h-28 grid grid-cols-2 items-center">
       <figure className="w-40 ml-5">
-        <img src="/images/logo_reden.png" alt="Reden"  />
+        <img src="/images/logo_reden.png" alt="Reden" />
       </figure>
       <nav className="p-5 mr-5">
         <ul className="justify-end">
