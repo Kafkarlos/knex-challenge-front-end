@@ -1,7 +1,7 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import User from "../components/User";
-import Post from "../components/PostCard";
+import PostCard from "../components/PostCard";
 
 export function Welcome() {
   return (
@@ -9,7 +9,7 @@ export function Welcome() {
       <Header />
       <main className="min-h-200 grid grid-cols-4 justify-items-center">
         <section className="col-start-2">
-          <Post />
+          <PostCard />
         </section>
         <User />
       </main>

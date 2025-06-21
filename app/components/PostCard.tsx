@@ -25,20 +25,19 @@ export default function PostCard(){
     },
   });
 
-  useEffect(() => {
-    const randomId = Math.floor(Math.random() * 100) + 1;
+    useEffect(() => {
     axios
-      .get(`https://jsonplaceholder.typicode.com/posts/${randomId}`)
-      .then((res) => {
-        setPost(res.data);
-        // Preenche o form com os dados do post assim que ele carregar
+        .get(`https://jsonplaceholder.typicode.com/posts?_limit=1`)
+        .then((res) => {
+        const firstPost = res.data[0]; // pega o primeiro post
+        setPost(firstPost);
         reset({
-          title: res.data.title,
-          body: res.data.body,
+            title: firstPost.title,
+            body: firstPost.body,
         });
-      })
-      .catch(() => setVisible(false));
-  }, [reset]);
+        })
+        .catch(() => setVisible(false));
+    }, [reset]);
 
   const handleDelete = () => {
     if (!post) return;
@@ -50,19 +49,12 @@ export default function PostCard(){
 
   const onSubmit = (data: { title: string; body: string }) => {
     if (!post) return;
-    axios
-      .put(`https://jsonplaceholder.typicode.com/posts/${post.id}`, {
+        setPost({
         ...post,
         title: data.title,
         body: data.body,
-      })
-      .then(() => {
-        setPost((prev) =>
-          prev ? { ...prev, title: data.title, body: data.body } : prev
-        );
+      });
         setShowModalEdit(false);
-      })
-      .catch(() => alert("Erro ao editar o post"));
   };
 
   if (!visible || !post) return null;
@@ -90,15 +82,15 @@ export default function PostCard(){
                 </figure>
             </section>
             <hr className="text-black"/>
-            <Post />
+            <Post post={post}/>
             <hr className="text-black m-3"/>
             <section className="grid grid-cols-5">
-                <button onClick={() => setShowModalDel(true)} className="bg-pink-10 p-2 w-12 text-2xl col-start-3 rounded-full transition-colors hover:bg-red-10">
+                <button onClick={() => setShowModalDel(true)} className="bg-pink-10 p-2 w-12 text-2xl col-start-3 rounded-full transition-all duration-700 ease-in-out hover:bg-red-10 hover:rounded-xl">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-8">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                     </svg>
                 </button>
-                <button onClick={() => setShowModalEdit(true)} className="bg-purple-10 p-2 w-12 text-2xl col-start-4 rounded-full transition-colors hover:bg-purple-950">
+                <button onClick={() => setShowModalEdit(true)} className="bg-purple-10 p-2 w-12 text-2xl col-start-4 rounded-full transition-all duration-700 ease-in-out hover:bg-purple-950 hover:rounded-xl">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-8">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                     </svg>
@@ -113,7 +105,7 @@ export default function PostCard(){
                 <div className="flex justify-center space-x-20">
                 <button
                     onClick={() => setShowModalDel(false)}
-                    className="p-3 rounded-lg bg-pink-10 transition-colors ease-in-out duration-200 hover:bg-pink-600 text-lg font-lato"
+                    className="p-3 rounded-lg bg-pink-10 transition-colors ease-in-out duration-200 hover:bg-pink-600 tracking-wide text-lg "
                 >
                     Cancelar
                 </button>
@@ -122,7 +114,7 @@ export default function PostCard(){
                     handleDelete();
                     setShowModalDel(false);
                     }}
-                    className="p-3 rounded-lg bg-red-10 transition-colors ease-in-out duration-200 hover:bg-red-600 text-lg font-lato"
+                    className="p-3 rounded-lg bg-red-10 transition-colors ease-in-out duration-200 hover:bg-red-600 tracking-wide text-lg "
                 >
                     Deletar
                 </button>
@@ -133,39 +125,40 @@ export default function PostCard(){
         {showModalEdit && (
             <div className="fixed inset-0 bg-opacity-40 flex items-center justify-center ">
             <div className="bg-white p-6 rounded shadow-md w-200 min-h-60 grid items-center">
-                <h3 className="text-4xl text-black font-mw">Editar Post</h3>
+                <h3 className="text-4xl text-purple-10 font-mw py-3">Editar Post</h3>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div>
-                <label className="block text-black text-2xl">Título</label>
+                <label className="block text-black text-2xl font-mw font-bold">Título</label>
                 <input
                   type="text"
                   {...register("title", { required: true })}
-                  className="w-full border-1 border-black text-xl text-black"
+                  className="w-full border-1 rounded-2xl border-black text-xl text-black p-2"
+                  maxLength={100}
                 />
               </div>
               <div>
-                <label className="block text-black text-2xl">Conteúdo</label>
+                <label className="block text-black text-2xl font-mw font-bold">Conteúdo</label>
                 <textarea
                   rows={4}
                   {...register("body", { required: true })}
-                  className="w-full border-1 border-black text-xl text-black"
+                  className="w-full border-1 rounded-2xl border-black text-xl text-black p-2"
                 />
               </div>
-              <div className="flex justify-end gap-3">
+              <div className="flex justify-center space-x-20">
                 <button
-                  type="button"
-                  onClick={() => setShowModalEdit(false)}
-                  className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                    type="button"
+                    onClick={() => setShowModalEdit(false)}
+                    className="p-3 rounded-lg bg-purple-10 transition-colors ease-in-out duration-200 hover:bg-purple-600 text-lg "
                 >
-                  Cancelar
+                    Cancelar
                 </button>
                 <button
-                  type="submit"
-                  className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                    type="submit"
+                    className="p-3 rounded-lg bg-green-900 transition-colors ease-in-out duration-200 hover:bg-green-600 text-lg "
                 >
-                  Salvar
+                    Confirmar
                 </button>
-              </div>
+                </div>
             </form>
             </div>
             </div>
