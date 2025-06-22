@@ -2,60 +2,43 @@ import { useAuth } from "../contexts/AuthContext";
 import Post from "../components/Post";
 import { PostSkeleton } from "./PostSkeleton";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useForm } from "react-hook-form";
 
-type Post = {
-  id: number;
-  title: string;
-  body: string;
+type PostCardProps = {
+  post: {
+    id: number;
+    title: string;
+    body: string;
+  };
 };
 
-export default function PostCard() {
+export default function PostCard({ post }: PostCardProps) {
   const { user, loading } = useAuth();
-  const [post, setPost] = useState<Post | null>(null);
   const [visible, setVisible] = useState(true);
   const [showModalDel, setShowModalDel] = useState(false);
   const [showModalEdit, setShowModalEdit] = useState(false);
+  const [localPost, setLocalPost] = useState(post);
 
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {
-      title: "",
-      body: "",
+      title: localPost.title,
+      body: localPost.body,
     },
   });
 
-  useEffect(() => {
-    axios
-      .get(`https://jsonplaceholder.typicode.com/posts?_limit=1`)
-      .then((res) => {
-        const firstPost = res.data[0];
-        setPost(firstPost);
-        reset({
-          title: firstPost.title,
-          body: firstPost.body,
-        });
-      })
-      .catch(() => setVisible(false));
-  }, [reset]);
-
-  const handleDelete = () => {
-    if (!post) return;
-    axios
-      .delete(`https://jsonplaceholder.typicode.com/posts/${post.id}`)
-      .then(() => setVisible(false))
-      .catch(() => alert("Erro ao deletar o post"));
-  };
+  const handleDelete = () => setVisible(false);
 
   const onSubmit = (data: { title: string; body: string }) => {
-    if (!post) return;
-    setPost({
-      ...post,
-      title: data.title,
-      body: data.body,
-    });
+    setLocalPost({ ...localPost, title: data.title, body: data.body });
     setShowModalEdit(false);
   };
+
+  useEffect(() => {
+    reset({
+      title: localPost.title,
+      body: localPost.body,
+    });
+  }, [localPost, reset]);
 
   if (!visible || !post) return null;
 
@@ -93,7 +76,7 @@ export default function PostCard() {
           </figure>
         </section>
         <hr className="text-black" />
-        <Post post={post} />
+        <Post post={localPost} />
         <hr className="text-black m-3" />
         <section className="grid grid-cols-5">
           <button
