@@ -1,5 +1,6 @@
 import { useAuth } from "../contexts/AuthContext";
 import Post from "../components/Post";
+import { PostSkeleton } from "./PostSkeleton";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
@@ -58,7 +59,7 @@ export default function PostCard() {
 
   if (!visible || !post) return null;
 
-  if (loading) return <p>Carregando usuário...</p>;
+  if (loading) return <PostSkeleton />;
 
   if (!user) return <p>Erro ao carregar usuário</p>;
   return (
@@ -136,8 +137,8 @@ export default function PostCard() {
         </section>
       </article>
       {showModalDel && (
-        <div className="fixed inset-0 bg-opacity-40 flex items-center justify-center ">
-          <div className="bg-white p-6 rounded shadow-md w-200 h-60 grid items-center">
+        <div className="fixed inset-0 bg-opacity-40 flex items-center justify-center">
+          <div className="bg-white-10 p-6 rounded shadow-xl w-200 h-60 grid items-center">
             <h3 className="text-4xl font-mw text-black">Confirmar exclusão</h3>
             <p className="text-2xl text-black font-mw">
               Deseja realmente deletar este post?
@@ -164,7 +165,7 @@ export default function PostCard() {
       )}
       {showModalEdit && (
         <div className="fixed inset-0 bg-opacity-40 flex items-center justify-center ">
-          <div className="bg-white p-6 rounded shadow-md w-200 min-h-60 grid items-center">
+          <div className="bg-white-10 p-6 rounded shadow-xl w-200 min-h-60 grid items-center">
             <h3 className="text-4xl text-purple-10 font-mw py-3">
               Editar Post
             </h3>
