@@ -13,17 +13,19 @@ export default function PostCardList() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [showModal, setShowModal] = useState(false);
 
-   const { register, handleSubmit, reset } = useForm({
-      defaultValues: {
-        title: "",
-        body: "",
-      },
-    });
+  const { register, handleSubmit, reset } = useForm({
+    defaultValues: {
+      title: "",
+      body: "",
+    },
+  });
 
   useEffect(() => {
-    axios.get("https://jsonplaceholder.typicode.com/posts?_limit=1").then((res) => {
-      setPosts(res.data);
-    });
+    axios
+      .get("https://jsonplaceholder.typicode.com/posts?_limit=1")
+      .then((res) => {
+        setPosts(res.data);
+      });
   }, []);
 
   const handleAddPost = (data: { title: string; body: string }) => {
@@ -39,20 +41,21 @@ export default function PostCardList() {
 
   return (
     <>
-    <section className="flex-2/12 justify-items-center">
-      {posts.map((post) => (
-        <PostCard key={post.id} post={post} />
-      ))}
-      <button 
-        onClick={() => setShowModal(true)}
-        className="bg-red-10 p-4 mt-4 w-50 text-2xl font-mw font-bold col-start-2 grid grid-cols-3 items-center rounded-xl transition-all duration-700 ease-in-out hover:bg-purple-950">
-        <figure className="w-10">
-            <img src="public/images/pena.png" alt="Pena"/>
-        </figure>
-        <p className="col-span-2">New Post</p>
+      <section className="flex-2/12 justify-items-center">
+        {posts.map((post) => (
+          <PostCard key={post.id} post={post} />
+        ))}
+        <button
+          onClick={() => setShowModal(true)}
+          className="bg-red-10 p-4 mt-4 w-50 text-2xl font-mw font-bold col-start-2 grid grid-cols-3 items-center rounded-xl transition-all duration-700 ease-in-out hover:bg-purple-950"
+        >
+          <figure className="w-10">
+            <img src="public/images/pena.png" alt="Pena" />
+          </figure>
+          <p className="col-span-2">New Post</p>
         </button>
-    </section>
-    {showModal && (
+      </section>
+      {showModal && (
         <div className="fixed inset-0 bg-opacity-40 flex items-center justify-center ">
           <div className="bg-white-10 p-6 rounded shadow-xl w-[50%] h-[50%] grid items-center">
             <h3 className="text-4xl text-purple-10 font-mw font-bold">
@@ -85,7 +88,10 @@ export default function PostCardList() {
               <div className="flex justify-center space-x-20">
                 <button
                   type="button"
-                  onClick={() => { reset({ title: "", body: "" }); setShowModal(false);}}
+                  onClick={() => {
+                    reset({ title: "", body: "" });
+                    setShowModal(false);
+                  }}
                   className="p-3 rounded-lg bg-red-800 transition-colors ease-in-out duration-200 hover:bg-red-10 text-lg "
                 >
                   Cancelar

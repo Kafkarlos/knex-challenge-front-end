@@ -3,16 +3,14 @@ export default function UserSkeleton() {
     <section className="w-50 col-span-2 animate-pulse">
       <article className="user-card m-7 p-5 w-120">
         <section className="grid grid-cols-3">
-          <figure className="w-30 h-30 justify-self-center self-center avatar">
-          </figure>
+          <figure className="w-30 h-30 justify-self-center self-center avatar"></figure>
           <div className="user-info col-span-2">
             <p className="font-mw font-bold text-black p-3"></p>
             <hr className="text-green-10" />
             <div className="p-5 justify-items-start">
               <p className="text-sm text-black/60"></p>
               <p className="text-sm text-black/60 pt-2">
-                <figure className="w-6 inline-block">
-                </figure>
+                <figure className="w-6 inline-block"></figure>
               </p>
             </div>
           </div>
