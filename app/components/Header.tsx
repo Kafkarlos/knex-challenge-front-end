@@ -8,7 +8,7 @@ export default function Header() {
         <ul className="justify-end">
           <li>
             <a
-              href=""
+              href="#"
               className="btn transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
             >
               Home
@@ -16,7 +16,7 @@ export default function Header() {
           </li>
           <li>
             <a
-              href=""
+              href="#"
               className="transition-all delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
             >
               Salvos
@@ -24,7 +24,7 @@ export default function Header() {
           </li>
           <li>
             <a
-              href=""
+              href="#"
               className="transition-all delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
             >
               Perfil

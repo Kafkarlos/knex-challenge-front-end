@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import PostCard from "./PostCard";
+import { PostSkeleton } from "./PostSkeleton";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { useAuth } from "../contexts/AuthContext";
 
 export type Post = {
   id: number;
@@ -12,6 +14,7 @@ export type Post = {
 export default function PostCardList() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [showModal, setShowModal] = useState(false);
+  const { user, loading } = useAuth();
 
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {
@@ -39,6 +42,9 @@ export default function PostCardList() {
     setShowModal(false);
   };
 
+  if (loading) return <PostSkeleton />;
+
+  if (!user) return <p>Erro ao carregar usuário</p>;
   return (
     <>
       <section className="flex-2/12 justify-items-center">

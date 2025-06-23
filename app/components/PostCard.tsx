@@ -42,8 +42,6 @@ export default function PostCard({ post }: PostCardProps) {
 
   if (!visible || !post) return null;
 
-  if (loading) return <PostSkeleton />;
-
   if (!user) return <p>Erro ao carregar usuário</p>;
   return (
     <>

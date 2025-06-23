@@ -4,25 +4,25 @@ export default function Footer() {
       <hr />
       <section className="grid grid-cols-3 justify-items-center p-5 pt-10">
         <p>
-          <a href="">Sobre</a>
+          <a href="#">Sobre</a>
         </p>
         <p>
-          <a href="">Termos e serviçõs</a>
+          <a href="#">Termos e serviçõs</a>
         </p>
         <p>
-          <a href="">Ajuda</a>
+          <a href="#">Ajuda</a>
         </p>
       </section>
       <hr />
       <section className="grid grid-cols-3 justify-items-center p-5">
         <p>
-          <a href="">FAQ</a>
+          <a href="#">FAQ</a>
         </p>
         <p>
-          <a href="">Política de Privacidade</a>
+          <a href="#">Política de Privacidade</a>
         </p>
         <p>
-          <a href="">Contato</a>
+          <a href="#">Contato</a>
         </p>
       </section>
       <hr />
