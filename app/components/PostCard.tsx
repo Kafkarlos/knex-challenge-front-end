@@ -1,25 +1,47 @@
 import { useAuth } from "../contexts/AuthContext";
 import Post from "../components/Post";
-import { PostSkeleton } from "./PostSkeleton";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
+const ContentSchema = z.object({
+  title: z.string().min(1, "O título não pode ser vazio"),
+  body: z.string().min(1, "O conteúdo não pode ser vazio"),
+});
+
+type ContentType = z.infer<typeof ContentSchema>;
 
 type PostCardProps = {
   post: {
     id: number;
     title: string;
     body: string;
+    userId: number;
+    user: {
+      name: string;
+      picture?: string;
+      address: {
+        city: string;
+      };
+    };
   };
 };
 
 export default function PostCard({ post }: PostCardProps) {
-  const { user, loading } = useAuth();
   const [visible, setVisible] = useState(true);
   const [showModalDel, setShowModalDel] = useState(false);
   const [showModalEdit, setShowModalEdit] = useState(false);
   const [localPost, setLocalPost] = useState(post);
+  const { user } = useAuth();
 
-  const { register, handleSubmit, reset } = useForm({
+    const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ContentType>({
+    resolver: zodResolver(ContentSchema),
     defaultValues: {
       title: localPost.title,
       body: localPost.body,
@@ -29,8 +51,14 @@ export default function PostCard({ post }: PostCardProps) {
   const handleDelete = () => setVisible(false);
 
   const onSubmit = (data: { title: string; body: string }) => {
-    setLocalPost({ ...localPost, title: data.title, body: data.body });
-    setShowModalEdit(false);
+    try {
+      ContentSchema.parse(data);
+      setLocalPost({ ...localPost, title: data.title, body: data.body });
+      setShowModalEdit(false);
+    } catch (err) {
+      console.error("Erro de validação:", err);
+      alert("Título e conteúdo são obrigatórios.");
+    }
   };
 
   useEffect(() => {
@@ -41,19 +69,21 @@ export default function PostCard({ post }: PostCardProps) {
   }, [localPost, reset]);
 
   if (!visible || !post) return null;
-
-  if (!user) return <p>Erro ao carregar usuário</p>;
   return (
     <>
       <article className="user-card m-7 mt-15 p-5 w-300">
         <section className="grid grid-cols-4">
           <div className="grid grid-cols-2">
             <figure className="w-30">
-              <img src={user.picture} alt="avatar" className="avatar" />
+              <img
+                src={post.user.picture || "/images/default-avatar.png"}
+                alt="avatar"
+                className="avatar"
+              />
             </figure>
             <div className="self-center">
-              <p className="w-100 text-sm text-black font-sw">{user.name}</p>
-              <p className="text-sm text-black/60 font-sw">{user.country}</p>
+              <p className="w-100 text-sm text-black font-sw">{post.user?.name ?? "Usuário desconhecido"}</p>
+              <p className="text-sm text-black/60 font-sw"> {post.user?.address?.city ?? "Localização desconhecida"}</p>
             </div>
           </div>
           <figure className="w-25 col-start-5 m-5">
@@ -76,6 +106,7 @@ export default function PostCard({ post }: PostCardProps) {
         <hr className="text-black" />
         <Post post={localPost} />
         <hr className="text-black m-3" />
+        {user && post.userId === user.id && (
         <section className="grid grid-cols-5">
           <button
             onClick={() => setShowModalDel(true)}
@@ -116,6 +147,7 @@ export default function PostCard({ post }: PostCardProps) {
             </svg>
           </button>
         </section>
+        )}
       </article>
       {showModalDel && (
         <div className="fixed inset-0 bg-opacity-40 flex items-center justify-center">
@@ -161,6 +193,9 @@ export default function PostCard({ post }: PostCardProps) {
                   className="w-full border-1 rounded-2xl border-black text-xl text-black p-2"
                   maxLength={100}
                 />
+                {errors.title && (
+                  <p className="text-red-600 text-lg font-light p-1">{errors.title.message}</p>
+                )}
               </div>
               <div>
                 <label className="block text-black text-2xl font-mw font-bold">
@@ -171,6 +206,9 @@ export default function PostCard({ post }: PostCardProps) {
                   {...register("body", { required: true })}
                   className="w-full border-1 rounded-2xl border-black text-xl text-black p-2"
                 />
+                {errors.body && (
+                  <p className="text-red-600 text-lg font-light p-1">{errors.body.message}</p> 
+                )}
               </div>
               <div className="flex justify-center space-x-20">
                 <button

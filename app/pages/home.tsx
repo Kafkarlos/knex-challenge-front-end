@@ -12,6 +12,7 @@ export function Welcome() {
           <PostCardList />
         </section>
         <User />
+        <div className="absolute h-full w-2 right-160 bg-purple-10 z-0"></div>
       </main>
       <Footer />
     </>

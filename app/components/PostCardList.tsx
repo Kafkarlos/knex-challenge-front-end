@@ -4,47 +4,106 @@ import { PostSkeleton } from "./PostSkeleton";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../contexts/AuthContext";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import type { User } from "../types/User";
 
-export type Post = {
+const ContentSchema = z.object({
+  title: z.string().min(1, "O título não pode ser vazio"),
+  body: z.string().min(1, "O conteúdo não pode ser vazio"),
+});
+
+type ContentType = z.infer<typeof ContentSchema>;
+
+export type PostsWithUser = {
   id: number;
   title: string;
   body: string;
+  userId: number;
+  user: {
+    name: string;
+    address: {
+      city: string;
+    };
+    picture: string;
+  };
 };
 
 export default function PostCardList() {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<PostsWithUser[]>([]);
   const [showModal, setShowModal] = useState(false);
-  const { user, loading } = useAuth();
+  const { user, users, loading } = useAuth() as {
+    user: User | null;
+    users: User[];
+    loading: boolean;
+  };
 
-  const { register, handleSubmit, reset } = useForm({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ContentType>({
+    resolver: zodResolver(ContentSchema),
     defaultValues: {
       title: "",
       body: "",
     },
   });
 
+  const getNonLoggedUser = (users: User[], loggedUserId: number, index: number) => {
+    const others = users.filter((u) => u.id !== loggedUserId);
+    return others[index % others.length];
+  };
+
   useEffect(() => {
-    axios
-      .get("https://jsonplaceholder.typicode.com/posts?_limit=1")
-      .then((res) => {
-        setPosts(res.data);
+    if (!user || users.length === 0) return;
+
+    axios.get("https://jsonplaceholder.typicode.com/posts?_limit=3").then((res) => {
+      const postsWithUsers = res.data.map((post: any, index: number) => {
+        const postUser = getNonLoggedUser(users, user.id, index);
+        return {
+          ...post,
+          userId: postUser.id,
+          user: {
+            name: postUser.name,
+            address: { city: postUser.state },
+            picture: postUser.picture,
+          },
+        };
       });
-  }, []);
+      setPosts(postsWithUsers);
+    });
+  }, [users, user]);
 
   const handleAddPost = (data: { title: string; body: string }) => {
-    const newPost: Post = {
+    const newPost: PostsWithUser = {
       id: Date.now(),
       title: data.title,
       body: data.body,
+      userId: user!.id,
+      user: {
+        name: user!.name,
+        address: {
+          city: user!.state,
+        },
+        picture: user!.picture,
+      },
     };
-    setPosts((prev) => [...prev, newPost]);
-    reset({ title: "", body: "" });
-    setShowModal(false);
+
+    try {
+      setPosts((prev) => [...prev, newPost]);
+      setShowModal(false);
+      reset();
+    } catch (err) {
+      console.error("Erro de validação:", err);
+      alert("Título e conteúdo são obrigatórios.");
+    }
   };
 
   if (loading) return <PostSkeleton />;
-
   if (!user) return <p>Erro ao carregar usuário</p>;
+
   return (
     <>
       <section className="flex-2/12 justify-items-center">
@@ -53,7 +112,7 @@ export default function PostCardList() {
         ))}
         <button
           onClick={() => setShowModal(true)}
-          className="bg-red-10 p-4 mt-4 w-50 text-2xl font-mw font-bold col-start-2 grid grid-cols-3 items-center rounded-xl transition-all duration-700 ease-in-out hover:bg-purple-950"
+          className="bg-red-10 p-4 m-4 w-50 text-2xl font-mw font-bold col-start-2 grid grid-cols-3 items-center rounded-xl transition-all duration-700 ease-in-out hover:bg-purple-950"
         >
           <figure className="w-10">
             <img src="public/images/pena.png" alt="Pena" />
@@ -61,17 +120,14 @@ export default function PostCardList() {
           <p className="col-span-2">New Post</p>
         </button>
       </section>
+
       {showModal && (
-        <div className="fixed inset-0 bg-opacity-40 flex items-center justify-center ">
+        <div className="fixed inset-0 bg-opacity-40 flex items-center justify-center z-10">
           <div className="bg-white-10 p-6 rounded shadow-xl w-[50%] h-[50%] grid items-center">
-            <h3 className="text-4xl text-purple-10 font-mw font-bold">
-              New Post
-            </h3>
+            <h3 className="text-4xl text-purple-10 font-mw font-bold">New Post</h3>
             <form onSubmit={handleSubmit(handleAddPost)} className="space-y-4">
               <div>
-                <label className="block text-black text-2xl font-mw font-bold">
-                  Título
-                </label>
+                <label className="block text-black text-2xl font-mw font-bold">Título</label>
                 <input
                   type="text"
                   {...register("title", { required: true })}
@@ -79,17 +135,17 @@ export default function PostCardList() {
                   maxLength={100}
                   placeholder="Título do seu Post"
                 />
+                {errors.title && <p className="text-red-600 text-lg font-light p-1">{errors.title.message}</p>}
               </div>
               <div>
-                <label className="block text-black text-2xl font-mw font-bold">
-                  Conteúdo
-                </label>
+                <label className="block text-black text-2xl font-mw font-bold">Conteúdo</label>
                 <textarea
                   rows={6}
                   {...register("body", { required: true })}
                   className="w-full border-1 rounded-2xl border-black text-xl text-black p-2"
                   placeholder="Conteúdo do seu Post"
                 />
+                {errors.body && <p className="text-red-600 text-lg font-light p-1">{errors.body.message}</p>}
               </div>
               <div className="flex justify-center space-x-20">
                 <button
@@ -98,13 +154,13 @@ export default function PostCardList() {
                     reset({ title: "", body: "" });
                     setShowModal(false);
                   }}
-                  className="p-3 rounded-lg bg-red-800 transition-colors ease-in-out duration-200 hover:bg-red-10 text-lg "
+                  className="p-3 rounded-lg bg-red-800 transition-colors ease-in-out duration-200 hover:bg-red-10 text-lg"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="p-3 rounded-lg bg-green-900 transition-colors ease-in-out duration-200 hover:bg-green-600 text-lg "
+                  className="p-3 rounded-lg bg-green-900 transition-colors ease-in-out duration-200 hover:bg-green-600 text-lg"
                 >
                   Publicar
                 </button>
