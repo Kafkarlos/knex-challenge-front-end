@@ -7,7 +7,7 @@ export default function User() {
 
   if (loading) return <Skeleton />;
 
-  if (!user) return <p>Erro ao carregar usuário</p>;
+  if (!user) return <p className="text-3xl text-red-10 font-mw font-bold">Erro ao carregar usuário</p>;
   return (
     <section className="w-50 col-span-2">
       <article className="user-card m-7 p-5 w-120">

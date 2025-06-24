@@ -121,7 +121,7 @@ export default function PostCardList() {
   };
 
   if (loading) return <PostSkeleton />;
-  if (!user) return <p>Erro ao carregar usuário</p>;
+  if (!user) return <p className="text-3xl text-red-10 font-mw font-bold">Erro ao carregar usuário</p>;
 
   return (
     <>
