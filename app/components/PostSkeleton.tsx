@@ -27,9 +27,9 @@ export function PostSkeleton() {
         <section>
           <div>
             <h2 className="text-black font-bold text-3xl text-center p-4">
-              Processing…
+              Carregando…
             </h2>
-            <p className="text-black p-5 break-all">Processing…</p>
+            <p className="text-black p-5 break-all">Carregando…</p>
           </div>
         </section>
         <hr className="text-black m-3" />

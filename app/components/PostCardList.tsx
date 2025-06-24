@@ -35,6 +35,9 @@ export type PostsWithUser = {
 export default function PostCardList() {
   const [posts, setPosts] = useState<PostsWithUser[]>([]);
   const [showModal, setShowModal] = useState(false);
+  const [pendingPost, setPendingPost] = useState<ContentType | null>(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
   const { user, users, loading } = useAuth() as {
     user: User | null;
     users: User[];
@@ -85,34 +88,38 @@ export default function PostCardList() {
       });
   }, [users, user]);
 
-  const handleAddPost = (data: { title: string; body: string }) => {
-    try {
-      toast.showLoading("Publicando post...");
-
-      const newPost: PostsWithUser = {
-        id: Date.now(),
-        title: data.title,
-        body: data.body,
-        userId: user!.id,
-        user: {
-          name: user!.name,
-          address: {
-            city: user!.state,
-          },
-          picture: user!.picture,
-        },
-      };
-
-      setTimeout(() => {
-        setPosts((prev) => [...prev, newPost]);
-        reset();
-        setShowModal(false);
-        toast.showSuccess("Post publicado com sucesso!");
-      }, 1000);
-    } catch (err) {
-      toast.showError("Erro ao publicar post.");
-    }
+  const onSubmitForm = (data: ContentType) => {
+    setPendingPost(data);
+    setShowConfirmModal(true);
   };
+
+  const confirmPostCreation = () => {
+  if (!pendingPost || !user) return;
+
+  toast.showLoading("Publicando post...");
+
+  const newPost: PostsWithUser = {
+    id: Date.now(),
+    title: pendingPost.title,
+    body: pendingPost.body,
+    userId: user.id,
+    user: {
+      name: user.name,
+      address: { city: user.state },
+      picture: user.picture,
+    },
+  };
+
+  setTimeout(() => {
+    setPosts((prev) => [...prev, newPost]);
+    reset();
+    setShowModal(false);
+    setShowConfirmModal(false);
+    setPendingPost(null);
+    toast.showSuccess("Post publicado com sucesso!");
+  }, 1000);
+};
+
 
   if (loading) return <PostSkeleton />;
   if (!user) return <p>Erro ao carregar usuário</p>;
@@ -140,7 +147,7 @@ export default function PostCardList() {
             <h3 className="text-4xl text-purple-10 font-mw font-bold">
               New Post
             </h3>
-            <form onSubmit={handleSubmit(handleAddPost)} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmitForm)} className="space-y-4">
               <div>
                 <label className="block text-black text-2xl font-mw font-bold">
                   Título
@@ -196,6 +203,38 @@ export default function PostCardList() {
           </div>
         </div>
       )}
+      {showConfirmModal && (
+        <div className="fixed inset-0 bg-opacity-40 flex items-center justify-center z-20">
+          <div className="bg-white-10 p-6 rounded shadow-xl w-[50%] min-h-[40%] grid gap-4">
+            <h3 className="text-3xl font-bold text-purple-10">Confirmar Publicação</h3>
+            <p className="text-lg text-black">
+              Tem certeza que deseja publicar o post com as seguintes informações?
+            </p>
+            <div className="bg-gray-100 p-4 border-2 border-green-10 rounded-xl text-black">
+              <p><strong>Título:</strong> {pendingPost?.title}</p>
+              <p><strong>Conteúdo:</strong> {pendingPost?.body}</p>
+            </div>
+            <div className="flex justify-center space-x-10">
+              <button
+                onClick={() => {
+                  setShowConfirmModal(false);
+                  setPendingPost(null);
+                }}
+                className="p-3 bg-red-800 text-white text-2xl rounded-lg hover:bg-red-10 transition"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={confirmPostCreation}
+                className="p-3 bg-green-900 text-white text-2xl rounded-lg hover:bg-green-600 transition"
+              >
+                Confirmar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </>
   );
 }
