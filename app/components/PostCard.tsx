@@ -112,8 +112,8 @@ export default function PostCard({ post }: PostCardProps) {
               stroke="currentColor"
               className={`${
                 user && post.userId === user.id
-                  ? "fill-green-10 stroke-green-10"
-                  : "fill-purple-10 stroke-purple-10"
+                  ? "fill-purple-10 stroke-purple-10"
+                  : "fill-green-10 stroke-green-10"
               }`}
             >
               <path

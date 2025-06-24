@@ -94,32 +94,31 @@ export default function PostCardList() {
   };
 
   const confirmPostCreation = () => {
-  if (!pendingPost || !user) return;
+    if (!pendingPost || !user) return;
 
-  toast.showLoading("Publicando post...");
+    toast.showLoading("Publicando post...");
 
-  const newPost: PostsWithUser = {
-    id: Date.now(),
-    title: pendingPost.title,
-    body: pendingPost.body,
-    userId: user.id,
-    user: {
-      name: user.name,
-      address: { city: user.state },
-      picture: user.picture,
-    },
+    const newPost: PostsWithUser = {
+      id: Date.now(),
+      title: pendingPost.title,
+      body: pendingPost.body,
+      userId: user.id,
+      user: {
+        name: user.name,
+        address: { city: user.state },
+        picture: user.picture,
+      },
+    };
+
+    setTimeout(() => {
+      setPosts((prev) => [...prev, newPost]);
+      reset();
+      setShowModal(false);
+      setShowConfirmModal(false);
+      setPendingPost(null);
+      toast.showSuccess("Post publicado com sucesso!");
+    }, 1000);
   };
-
-  setTimeout(() => {
-    setPosts((prev) => [...prev, newPost]);
-    reset();
-    setShowModal(false);
-    setShowConfirmModal(false);
-    setPendingPost(null);
-    toast.showSuccess("Post publicado com sucesso!");
-  }, 1000);
-};
-
 
   if (loading) return <PostSkeleton />;
   if (!user) return <p>Erro ao carregar usuário</p>;
@@ -206,13 +205,20 @@ export default function PostCardList() {
       {showConfirmModal && (
         <div className="fixed inset-0 bg-opacity-40 flex items-center justify-center z-20">
           <div className="bg-white-10 p-6 rounded shadow-xl w-[50%] min-h-[40%] grid gap-4">
-            <h3 className="text-3xl font-bold text-purple-10">Confirmar Publicação</h3>
+            <h3 className="text-3xl font-bold text-purple-10">
+              Confirmar Publicação
+            </h3>
             <p className="text-lg text-black">
-              Tem certeza que deseja publicar o post com as seguintes informações?
+              Tem certeza que deseja publicar o post com as seguintes
+              informações?
             </p>
             <div className="bg-gray-100 p-4 border-2 border-green-10 rounded-xl text-black">
-              <p><strong>Título:</strong> {pendingPost?.title}</p>
-              <p><strong>Conteúdo:</strong> {pendingPost?.body}</p>
+              <p>
+                <strong>Título:</strong> {pendingPost?.title}
+              </p>
+              <p>
+                <strong>Conteúdo:</strong> {pendingPost?.body}
+              </p>
             </div>
             <div className="flex justify-center space-x-10">
               <button
@@ -234,7 +240,6 @@ export default function PostCardList() {
           </div>
         </div>
       )}
-
     </>
   );
 }
