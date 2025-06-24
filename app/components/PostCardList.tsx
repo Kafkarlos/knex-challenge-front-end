@@ -7,6 +7,9 @@ import { useAuth } from "../contexts/AuthContext";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import type { User } from "../types/User";
+import { useToast } from "../hooks/useToast";
+
+const toast = useToast();
 
 const ContentSchema = z.object({
   title: z.string().min(1, "O título não pode ser vazio"),
@@ -83,27 +86,31 @@ export default function PostCardList() {
   }, [users, user]);
 
   const handleAddPost = (data: { title: string; body: string }) => {
-    const newPost: PostsWithUser = {
-      id: Date.now(),
-      title: data.title,
-      body: data.body,
-      userId: user!.id,
-      user: {
-        name: user!.name,
-        address: {
-          city: user!.state,
-        },
-        picture: user!.picture,
-      },
-    };
-
     try {
-      setPosts((prev) => [...prev, newPost]);
-      setShowModal(false);
-      reset();
+      toast.showLoading("Publicando post...");
+
+      const newPost: PostsWithUser = {
+        id: Date.now(),
+        title: data.title,
+        body: data.body,
+        userId: user!.id,
+        user: {
+          name: user!.name,
+          address: {
+            city: user!.state,
+          },
+          picture: user!.picture,
+        },
+      };
+
+      setTimeout(() => {
+        setPosts((prev) => [...prev, newPost]);
+        reset();
+        setShowModal(false);
+        toast.showSuccess("Post publicado com sucesso!");
+      }, 1000);
     } catch (err) {
-      console.error("Erro de validação:", err);
-      alert("Título e conteúdo são obrigatórios.");
+      toast.showError("Erro ao publicar post.");
     }
   };
 

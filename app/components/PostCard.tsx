@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useToast } from "../hooks/useToast";
+
+const toast = useToast();
 
 const ContentSchema = z.object({
   title: z.string().min(1, "O título não pode ser vazio"),
@@ -48,19 +51,28 @@ export default function PostCard({ post }: PostCardProps) {
     },
   });
 
-  const handleDelete = () => setVisible(false);
+  const handleDelete = () => {
+    toast.showLoading("Deletando...");
+    setTimeout(() => {
+      setVisible(false);
+      toast.showSuccess("Post deletado com sucesso!");
+    }, 1000);
+  };
 
   const onSubmit = (data: { title: string; body: string }) => {
     try {
+      toast.showLoading("Atualizando post...");
       ContentSchema.parse(data);
-      setLocalPost({ ...localPost, title: data.title, body: data.body });
-      setShowModalEdit(false);
-    } catch (err) {
-      console.error("Erro de validação:", err);
-      alert("Título e conteúdo são obrigatórios.");
+
+      setTimeout(() => {
+        setLocalPost({ ...localPost, title: data.title, body: data.body });
+        setShowModalEdit(false);
+        toast.showSuccess("Post atualizado!");
+      }, 1000);
+    } catch {
+      toast.showError("Erro ao atualizar post.");
     }
   };
-
   useEffect(() => {
     reset({
       title: localPost.title,

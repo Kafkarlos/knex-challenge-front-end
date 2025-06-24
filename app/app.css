@@ -28,6 +28,13 @@ body {
   font-family: var(--font-lato);
 }
 
+.toastify-custom {
+  font-size: 1.25rem;
+  font-family: var(--font-mw);
+  color: #2b2b2b;
+  background-color: #fefefe;
+}
+
 * img {
   width: 100%;
 }
