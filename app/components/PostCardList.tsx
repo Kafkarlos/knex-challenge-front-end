@@ -51,7 +51,11 @@ export default function PostCardList() {
     },
   });
 
-  const getNonLoggedUser = (users: User[], loggedUserId: number, index: number) => {
+  const getNonLoggedUser = (
+    users: User[],
+    loggedUserId: number,
+    index: number,
+  ) => {
     const others = users.filter((u) => u.id !== loggedUserId);
     return others[index % others.length];
   };
@@ -59,21 +63,23 @@ export default function PostCardList() {
   useEffect(() => {
     if (!user || users.length === 0) return;
 
-    axios.get("https://jsonplaceholder.typicode.com/posts?_limit=3").then((res) => {
-      const postsWithUsers = res.data.map((post: any, index: number) => {
-        const postUser = getNonLoggedUser(users, user.id, index);
-        return {
-          ...post,
-          userId: postUser.id,
-          user: {
-            name: postUser.name,
-            address: { city: postUser.state },
-            picture: postUser.picture,
-          },
-        };
+    axios
+      .get("https://jsonplaceholder.typicode.com/posts?_limit=3")
+      .then((res) => {
+        const postsWithUsers = res.data.map((post: any, index: number) => {
+          const postUser = getNonLoggedUser(users, user.id, index);
+          return {
+            ...post,
+            userId: postUser.id,
+            user: {
+              name: postUser.name,
+              address: { city: postUser.state },
+              picture: postUser.picture,
+            },
+          };
+        });
+        setPosts(postsWithUsers);
       });
-      setPosts(postsWithUsers);
-    });
   }, [users, user]);
 
   const handleAddPost = (data: { title: string; body: string }) => {
@@ -124,10 +130,14 @@ export default function PostCardList() {
       {showModal && (
         <div className="fixed inset-0 bg-opacity-40 flex items-center justify-center z-10">
           <div className="bg-white-10 p-6 rounded shadow-xl w-[50%] h-[50%] grid items-center">
-            <h3 className="text-4xl text-purple-10 font-mw font-bold">New Post</h3>
+            <h3 className="text-4xl text-purple-10 font-mw font-bold">
+              New Post
+            </h3>
             <form onSubmit={handleSubmit(handleAddPost)} className="space-y-4">
               <div>
-                <label className="block text-black text-2xl font-mw font-bold">Título</label>
+                <label className="block text-black text-2xl font-mw font-bold">
+                  Título
+                </label>
                 <input
                   type="text"
                   {...register("title", { required: true })}
@@ -135,17 +145,27 @@ export default function PostCardList() {
                   maxLength={100}
                   placeholder="Título do seu Post"
                 />
-                {errors.title && <p className="text-red-600 text-lg font-light p-1">{errors.title.message}</p>}
+                {errors.title && (
+                  <p className="text-red-600 text-lg font-light p-1">
+                    {errors.title.message}
+                  </p>
+                )}
               </div>
               <div>
-                <label className="block text-black text-2xl font-mw font-bold">Conteúdo</label>
+                <label className="block text-black text-2xl font-mw font-bold">
+                  Conteúdo
+                </label>
                 <textarea
                   rows={6}
                   {...register("body", { required: true })}
                   className="w-full border-1 rounded-2xl border-black text-xl text-black p-2"
                   placeholder="Conteúdo do seu Post"
                 />
-                {errors.body && <p className="text-red-600 text-lg font-light p-1">{errors.body.message}</p>}
+                {errors.body && (
+                  <p className="text-red-600 text-lg font-light p-1">
+                    {errors.body.message}
+                  </p>
+                )}
               </div>
               <div className="flex justify-center space-x-20">
                 <button

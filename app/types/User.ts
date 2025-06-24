@@ -4,7 +4,7 @@ export type User = {
   email: string;
   phone: string;
   age: number | string;
-  gender?: string; 
+  gender?: string;
   country: string;
   state: string;
   city?: string;
