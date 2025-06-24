@@ -189,7 +189,7 @@ export default function PostCard({ post }: PostCardProps) {
                   handleDelete();
                   setShowModalDel(false);
                 }}
-                className="p-3 rounded-lg bg-red-10 transition-colors ease-in-out duration-200 hover:bg-red-600 tracking-wide text-lg "
+                className="p-3 rounded-lg bg-red-10 transition-colors ease-in-out duration-200 hover:bg-red-800 tracking-wide text-lg "
               >
                 Deletar
               </button>
