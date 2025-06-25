@@ -7,9 +7,14 @@ export default function User() {
 
   if (loading) return <Skeleton />;
 
-  if (!user) return <p className="text-3xl text-red-10 font-mw font-bold">Erro ao carregar usuário</p>;
+  if (!user)
+    return (
+      <p className="text-3xl text-red-10 font-mw font-bold">
+        Erro ao carregar usuário
+      </p>
+    );
   return (
-    <section className="w-50 col-span-2">
+    <section className="w-50 col-span-2 top-30 right-80 absolute md:static">
       <article className="user-card m-7 p-5 w-120">
         <section className="grid grid-cols-3">
           <figure className="w-30 justify-self-center self-center">
@@ -47,7 +52,7 @@ export default function User() {
           </ul>
         </section>
       </article>
-      <figure className="w-100 justify-self-center ml-80">
+      <figure className="hidden md:flex w-100 justify-self-center ml-80">
         <img
           src="public/images/dreizehn.png"
           width="100%"

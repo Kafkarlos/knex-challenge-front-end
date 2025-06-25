@@ -121,17 +121,23 @@ export default function PostCardList() {
   };
 
   if (loading) return <PostSkeleton />;
-  if (!user) return <p className="text-3xl text-red-10 font-mw font-bold">Erro ao carregar usuário</p>;
+  if (!user)
+    return (
+      <p className="text-3xl text-red-10 font-mw font-bold">
+        Erro ao carregar usuário
+      </p>
+    );
 
   return (
     <>
-      <section className="flex-2/12 justify-items-center">
+      <hr className="h-2 w-full bg-purple-10 absolute md:hidden" />
+      <section className="mt-[60vh] p-2 md:mt-0 justify-items-center">
         {posts.map((post) => (
           <PostCard key={post.id} post={post} />
         ))}
         <button
           onClick={() => setShowModal(true)}
-          className="bg-red-10 p-4 m-4 w-50 text-2xl font-mw font-bold col-start-2 grid grid-cols-3 items-center rounded-xl transition-all duration-700 ease-in-out hover:bg-purple-950"
+          className="bg-red-10 p-4 m-4 w-60 md:w-50 text-2xl font-mw font-bold col-start-2 grid grid-cols-3 items-center rounded-xl transition-all duration-700 ease-in-out hover:bg-purple-950"
         >
           <figure className="w-10">
             <img src="public/images/pena.png" alt="Pena" />
@@ -142,19 +148,19 @@ export default function PostCardList() {
 
       {showModal && (
         <div className="fixed inset-0 bg-opacity-40 flex items-center justify-center z-10">
-          <div className="bg-white-10 p-6 rounded shadow-xl w-[50%] h-[50%] grid items-center">
-            <h3 className="text-4xl text-purple-10 font-mw font-bold">
+          <div className="bg-white-10 p-6 rounded shadow-xl w-[80%] md:w-[50%] min-h-[50%] grid items-center">
+            <h3 className="text-6xl md:text-4xl text-purple-10 font-mw font-bold my-2 text-center md:text-left">
               New Post
             </h3>
             <form onSubmit={handleSubmit(onSubmitForm)} className="space-y-4">
               <div>
-                <label className="block text-black text-2xl font-mw font-bold">
+                <label className="block text-black text-3xl lg:text-2xl font-mw font-bold">
                   Título
                 </label>
                 <input
                   type="text"
                   {...register("title", { required: true })}
-                  className="w-full border-1 rounded-2xl border-black text-xl text-black p-2"
+                  className="w-full border-1 rounded-2xl border-black text-2xl lg:text-xl text-black p-2"
                   maxLength={100}
                   placeholder="Título do seu Post"
                 />
@@ -165,13 +171,13 @@ export default function PostCardList() {
                 )}
               </div>
               <div>
-                <label className="block text-black text-2xl font-mw font-bold">
+                <label className="block text-black text-3xl lg:text-2xl font-mw font-bold">
                   Conteúdo
                 </label>
                 <textarea
                   rows={6}
                   {...register("body", { required: true })}
-                  className="w-full border-1 rounded-2xl border-black text-xl text-black p-2"
+                  className="w-full border-1 rounded-2xl border-black text-2xl lg:text-xl text-black p-2"
                   placeholder="Conteúdo do seu Post"
                 />
                 {errors.body && (
@@ -187,13 +193,13 @@ export default function PostCardList() {
                     reset({ title: "", body: "" });
                     setShowModal(false);
                   }}
-                  className="p-3 rounded-lg bg-red-800 transition-colors ease-in-out duration-200 hover:bg-red-10 text-lg"
+                  className="p-3 rounded-lg bg-red-800 transition-colors ease-in-out duration-200 hover:bg-red-10 text-2xl lg:text-lg"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="p-3 rounded-lg bg-green-900 transition-colors ease-in-out duration-200 hover:bg-green-600 text-lg"
+                  className="p-3 rounded-lg bg-green-900 transition-colors ease-in-out duration-200 hover:bg-green-600 text-2xl lg:text-lg"
                 >
                   Publicar
                 </button>
@@ -204,8 +210,8 @@ export default function PostCardList() {
       )}
       {showConfirmModal && (
         <div className="fixed inset-0 bg-opacity-40 flex items-center justify-center z-20">
-          <div className="bg-white-10 p-6 rounded shadow-xl w-[50%] min-h-[40%] grid gap-4">
-            <h3 className="text-3xl font-bold text-purple-10">
+          <div className="bg-white-10 p-6 rounded shadow-xl w-[80%] md:w-[50%] min-h-[40%] grid gap-4">
+            <h3 className="text-3xl pt-2 font-bold text-purple-10">
               Confirmar Publicação
             </h3>
             <p className="text-lg text-black">

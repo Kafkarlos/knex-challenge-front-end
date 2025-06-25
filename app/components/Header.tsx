@@ -1,6 +1,6 @@
 export default function Header() {
   return (
-    <header className="bg-purple-10 w-full h-28 grid grid-cols-2 items-center">
+    <header className="bg-purple-10 w-[129vw] md:w-[109vw] lg:w-full h-28 grid grid-cols-2 items-center">
       <figure className="w-40 ml-5">
         <img src="/images/logo_reden.png" alt="Reden" />
       </figure>

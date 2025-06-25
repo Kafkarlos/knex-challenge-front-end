@@ -83,9 +83,9 @@ export default function PostCard({ post }: PostCardProps) {
   if (!visible || !post) return null;
   return (
     <>
-      <article className="user-card m-7 mt-15 p-5 w-300">
+      <article className="user-card m-7 mt-15 p-5 w-180 lg:w-300">
         <section className="grid grid-cols-4">
-          <div className="grid grid-cols-2">
+          <div className="grid grid-cols-2 gap-[17vw] md:gap-[10vw] lg:gap-0">
             <figure className="w-30">
               <img
                 src={post.user.picture || "/images/default-avatar.png"}
@@ -171,16 +171,16 @@ export default function PostCard({ post }: PostCardProps) {
         )}
       </article>
       {showModalDel && (
-        <div className="fixed inset-0 bg-opacity-40 flex items-center justify-center">
-          <div className="bg-white-10 p-6 rounded shadow-xl w-200 h-60 lg:w-250 lg:h-80 grid items-center">
+        <div className="fixed inset-0 bg-opacity-40 flex items-center justify-center z-10">
+          <div className="bg-white-10 p-6 rounded shadow-xl w-200 h-80 lg:w-250 lg:h-80 grid items-center">
             <h3 className="text-4xl font-mw text-black">Confirmar exclusão</h3>
-            <p className="text-2xl lg:text-9xl text-black font-mw">
+            <span className="text-3xl lg:text-2xl text-black font-mw">
               Deseja realmente deletar este post?
-            </p>
+            </span>
             <div className="flex justify-center space-x-20">
               <button
                 onClick={() => setShowModalDel(false)}
-                className="p-3 rounded-lg bg-pink-10 transition-colors ease-in-out duration-200 hover:bg-pink-600 tracking-wide text-lg "
+                className="p-3 rounded-lg bg-pink-10 transition-colors ease-in-out duration-200 hover:bg-pink-600 tracking-wide text-2xl lg:text-lg "
               >
                 Cancelar
               </button>
@@ -189,7 +189,7 @@ export default function PostCard({ post }: PostCardProps) {
                   handleDelete();
                   setShowModalDel(false);
                 }}
-                className="p-3 rounded-lg bg-red-10 transition-colors ease-in-out duration-200 hover:bg-red-800 tracking-wide text-lg "
+                className="p-3 rounded-lg bg-red-10 transition-colors ease-in-out duration-200 hover:bg-red-800 tracking-wide text-2xl lg:text-lg "
               >
                 Deletar
               </button>
@@ -198,20 +198,20 @@ export default function PostCard({ post }: PostCardProps) {
         </div>
       )}
       {showModalEdit && (
-        <div className="fixed inset-0 bg-opacity-40 flex items-center justify-center ">
+        <div className="fixed inset-0 bg-opacity-40 flex items-center justify-center z-20">
           <div className="bg-white-10 p-6 rounded shadow-xl w-200 min-h-60 grid items-center">
             <h3 className="text-4xl text-purple-10 font-mw py-3">
               Editar Post
             </h3>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div>
-                <label className="block text-black text-2xl font-mw font-bold">
+                <label className="block text-black text-3xl lg:text-2xl font-mw font-bold">
                   Título
                 </label>
                 <input
                   type="text"
                   {...register("title", { required: true })}
-                  className="w-full border-1 rounded-2xl border-black text-xl text-black p-2"
+                  className="w-full border-1 rounded-2xl border-black text-2xl lg:text-xl text-black p-2"
                   maxLength={100}
                 />
                 {errors.title && (
@@ -221,13 +221,13 @@ export default function PostCard({ post }: PostCardProps) {
                 )}
               </div>
               <div>
-                <label className="block text-black text-2xl font-mw font-bold">
+                <label className="block text-black text-3xl lg:text-2xl font-mw font-bold">
                   Conteúdo
                 </label>
                 <textarea
                   rows={4}
                   {...register("body", { required: true })}
-                  className="w-full border-1 rounded-2xl border-black text-xl text-black p-2"
+                  className="w-full border-1 rounded-2xl border-black text-2xl lg:text-xl text-black p-2"
                 />
                 {errors.body && (
                   <p className="text-red-600 text-lg font-light p-1">
@@ -239,13 +239,13 @@ export default function PostCard({ post }: PostCardProps) {
                 <button
                   type="button"
                   onClick={() => setShowModalEdit(false)}
-                  className="p-3 rounded-lg bg-purple-10 transition-colors ease-in-out duration-200 hover:bg-purple-600 text-lg "
+                  className="p-3 rounded-lg bg-purple-10 transition-colors ease-in-out duration-200 hover:bg-purple-600 text-2xl lg:text-lg "
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="p-3 rounded-lg bg-green-900 transition-colors ease-in-out duration-200 hover:bg-green-600 text-lg "
+                  className="p-3 rounded-lg bg-green-900 transition-colors ease-in-out duration-200 hover:bg-green-600 text-2xl lg:text-lg "
                 >
                   Confirmar
                 </button>

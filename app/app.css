@@ -81,3 +81,12 @@ p {
   border: 2px solid var(--color-green-10);
   border-radius: 1vw;
 }
+
+@media (width <= 48rem) {
+  .user-card {
+    border-radius: 3vw;
+  }
+  p {
+    font-size: 1.8rem;
+  }
+}
