@@ -97,7 +97,7 @@ export default function PostCard({ post }: PostCardProps) {
               <p className="w-100 text-sm text-black font-sw">
                 {post.user?.name ?? "Usuário desconhecido"}
               </p>
-              <p className="text-sm text-black/60 font-sw">
+              <p className="text-sm text-black/60 font-sw w-100">
                 {" "}
                 {post.user?.address?.city ?? "Localização desconhecida"}
               </p>
@@ -172,9 +172,9 @@ export default function PostCard({ post }: PostCardProps) {
       </article>
       {showModalDel && (
         <div className="fixed inset-0 bg-opacity-40 flex items-center justify-center">
-          <div className="bg-white-10 p-6 rounded shadow-xl w-200 h-60 grid items-center">
+          <div className="bg-white-10 p-6 rounded shadow-xl w-200 h-60 lg:w-250 lg:h-80 grid items-center">
             <h3 className="text-4xl font-mw text-black">Confirmar exclusão</h3>
-            <p className="text-2xl text-black font-mw">
+            <p className="text-2xl lg:text-9xl text-black font-mw">
               Deseja realmente deletar este post?
             </p>
             <div className="flex justify-center space-x-20">
