@@ -7,9 +7,9 @@
 
 <div align="center">
 
-![Static Badge](https://img.shields.io/badge/React-v19.1.0-blue)
-![Static Badge](https://img.shields.io/badge/React_Router-v7.6.2-red)
-![Static Badge](https://img.shields.io/badge/Tailwind-v3-purple)
+![React: v19.1.0](https://img.shields.io/badge/React-v19.1.0-blue)
+![React_Router: v7.6.2](https://img.shields.io/badge/React_Router-v7.6.2-red)
+![Tailwind: v3](https://img.shields.io/badge/Tailwind-v3-purple)
 ![Status: concluído](https://img.shields.io/badge/Status-conclu%C3%ADdo-green)
 
 </div>
