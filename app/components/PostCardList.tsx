@@ -140,7 +140,7 @@ export default function PostCardList() {
           className="bg-red-10 p-4 m-4 w-60 md:w-50 text-2xl font-mw font-bold col-start-2 grid grid-cols-3 items-center rounded-xl transition-all duration-700 ease-in-out hover:bg-purple-950"
         >
           <figure className="w-10">
-            <img src="public/images/pena.png" alt="Pena" />
+            <img src="/images/pena.png" alt="Pena" />
           </figure>
           <p className="col-span-2">New Post</p>
         </button>

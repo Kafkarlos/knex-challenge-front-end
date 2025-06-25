@@ -54,7 +54,7 @@ export default function User() {
       </article>
       <figure className="hidden md:flex w-100 justify-self-center ml-80">
         <img
-          src="public/images/dreizehn.png"
+          src="/images/dreizehn.png"
           width="100%"
           alt="Cachorro doberman vermelho, com o nome dreizehn em cima também em vermelho"
         />
