@@ -19,6 +19,9 @@
 Este projeto é fruto de um desafio de front_end da empresa júnio Knex. Neste, foi necessário utilizar React para criar um projeto CRUD que simula-se uma rede social. Dessa forma, o Reden tem a capacidade de ver postagens de outros usuário, ver o usuário "logado", além de: adicionar novos posts, editar e deletar posts autorais. 
 ![reden print](https://github.com/user-attachments/assets/e64782de-abd4-4871-8daf-5c62268251a5)
 
+## 🖌️Releitura do protótipo
+A protipagem do projeto foi feita em figma, você pode vela acessando esse [link](https://www.figma.com/design/xefHnmtHPJ2GUsO3xdWQzc/Reden?node-id=2-2&t=AI9ww5qhPD1oZDQ1-1).
+
 # :hammer: Funcionalidades do projeto
 - `Ver usuário "logado"`: a partir de uma requisição a api RadomUser, toda vez que você entra na aplicação você pode ver seu usuário logado.
 - ![user print](https://github.com/user-attachments/assets/5a9b741c-9e71-4ecb-9797-7ee5bf562fd8)
